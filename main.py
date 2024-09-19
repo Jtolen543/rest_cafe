@@ -8,15 +8,16 @@ import random
 
 load_dotenv()
 
-
 app = Flask(__name__)
 
 
 # CREATE DB
 class Base(DeclarativeBase):
     pass
+
+
 # Connect to Database
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///cafes.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL", "sqlite:///cafes.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -55,6 +56,7 @@ def get_random_cafe():
     cafe = random.choice(db.session.query(Cafe).all()).to_dict()
     return jsonify(cafe=cafe)
 
+
 @app.route("/all")
 def get_all_cafes():
     cafes = [cafe.to_dict() for cafe in db.session.query(Cafe).all()]
@@ -73,16 +75,16 @@ def find_cafe():
 @app.route("/add", methods=["POST"])
 def add():
     new_cafe = Cafe(
-                    name=request.form.get("name"),
-                    map_url=request.form.get("map_url"),
-                    img_url=request.form.get("img_url"),
-                    location=request.form.get("location"),
-                    seats=request.form.get("seats"),
-                    has_toilet=request.form.get("toilet") == "True",
-                    has_wifi=request.form.get("wifi") == "True",
-                    has_sockets=request.form.get("sockets") == "True",
-                    can_take_calls=request.form.get("calls") == "True",
-                    coffee_price=request.form.get("price"))
+        name=request.form.get("name"),
+        map_url=request.form.get("map_url"),
+        img_url=request.form.get("img_url"),
+        location=request.form.get("location"),
+        seats=request.form.get("seats"),
+        has_toilet=request.form.get("toilet") == "True",
+        has_wifi=request.form.get("wifi") == "True",
+        has_sockets=request.form.get("sockets") == "True",
+        can_take_calls=request.form.get("calls") == "True",
+        coffee_price=request.form.get("price"))
     db.session.add(new_cafe)
     db.session.commit()
     return jsonify(response={"success": "Successfully added the new cafe."})
