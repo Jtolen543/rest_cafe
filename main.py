@@ -2,7 +2,11 @@ from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
+from dotenv import load_dotenv
+import os
 import random
+
+load_dotenv()
 
 
 app = Flask(__name__)
@@ -12,7 +16,7 @@ app = Flask(__name__)
 class Base(DeclarativeBase):
     pass
 # Connect to Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL", "'sqlite:///cafes.db'")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
