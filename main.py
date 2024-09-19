@@ -16,7 +16,7 @@ app = Flask(__name__)
 class Base(DeclarativeBase):
     pass
 # Connect to Database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL", "'sqlite:///cafes.db'")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL", "sqlite:///cafes.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
