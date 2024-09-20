@@ -67,8 +67,11 @@ def get_all_cafes():
 def find_cafe():
     loc = request.args.get("loc")
     find = db.session.query(Cafe).filter(Cafe.location == loc)
+    store = []
+    for cafe in find:
+        store.append(cafe.to_dict())
     error = {"Not Found": "Sorry, we don't have a cafe at that location."}
-    return jsonify(find.to_dict()) if find else jsonify(error=error)
+    return jsonify(store) if len(store) != 0 else jsonify(error=error)
 
 
 # HTTP POST - Create Record
