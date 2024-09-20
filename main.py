@@ -66,7 +66,7 @@ def get_all_cafes():
 @app.route("/search")
 def find_cafe():
     loc = request.args.get("loc")
-    find = db.session.query(Cafe).filter(Cafe.location == loc).first()
+    find = db.session.query(Cafe).filter(Cafe.location == loc)
     error = {"Not Found": "Sorry, we don't have a cafe at that location."}
     return jsonify(find.to_dict()) if find else jsonify(error=error)
 
@@ -107,7 +107,6 @@ def update_price(cafe_id):
 
 @app.route("/report-closed/<int:cafe_id>", methods=["DELETE"])
 def delete(cafe_id):
-    print(request.form.get("api-key"))
     if request.form.get("api-key") == "TopSecretAPIKey":
         cafe = db.session.get(Cafe, cafe_id)
         if cafe:
