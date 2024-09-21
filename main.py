@@ -24,7 +24,7 @@ db.init_app(app)
 
 # Cafe TABLE Configuration
 class Cafe(db.Model):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     map_url: Mapped[str] = mapped_column(String(500), nullable=False)
     img_url: Mapped[str] = mapped_column(String(500), nullable=False)
