@@ -78,6 +78,7 @@ def find_cafe():
 @app.route("/add", methods=["POST"])
 def add():
     new_cafe = Cafe(
+        id=db.session.query(Cafe).count() + 1,
         name=request.form.get("name"),
         map_url=request.form.get("map_url"),
         img_url=request.form.get("img_url"),
